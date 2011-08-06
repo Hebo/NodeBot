@@ -33,6 +33,7 @@ app.post('/api', function(req, res){
         _.each(req.body['channels'], function (channel) {
             bot.say(channel, req.body['message']);
         });
+        res.end(JSON.stringify({"status": "ok"}));
     }
 });
 
