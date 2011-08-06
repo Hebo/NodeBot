@@ -1,16 +1,26 @@
 var irc     = require('irc'),
-    http    = require('http');
+    http    = require('http'),
+    fs      = require('fs');
 
 var _ = require('underscore');
 var commands = require('./commands');
 
-var channels = ['#gaming'],
-    debug_channels = ['#test'],
-    debug_mode = false;
+var channels = ['#gaming'];
+
+var debug_mode = false;
+try {
+    fs.lstatSync('./DEBUGMODE');
+    debug_mode = true;
+    console.log("Debug mode on");
+    channels = ['#test'];
+} catch (e) {
+
+}
+
 
 var bot = new irc.Client('mini-irc.local', 'NodeBot', {
     debug: debug_mode,
-    channels: debug_mode ? debug_channels : channels,
+    channels: channels,
 });
 
 bot.addListener('registered', function() {
