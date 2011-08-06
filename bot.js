@@ -6,21 +6,20 @@ var irc     = require('irc'),
 var _ = require('underscore');
 var commands = require('./commands');
 
-var   channels = ['#gaming'],
-    debug_mode = false;
 
 try {
     fs.lstatSync('./DEBUGMODE');
-    debug_mode = true;
+    var debug_mode = true;
     console.log("Debug mode on");
     channels = ['#test'];
 } catch (e) {
-    // normal mode
+    var debug_mode = false;
+    channels = ['#gaming'];
 }
 
 var bot = new irc.Client('mini-irc.local', 'NodeBot', {
     debug: debug_mode,
-    channels: channels,
+    channels: channels
 });
 
 // POST API for sending messages to channel
@@ -45,7 +44,7 @@ app.listen(4000);
 
 bot.addListener('registered', function() {
     // Connected to server -> nickserv identify
-    bot.say("nickserv", "identify botpass")
+    bot.say("nickserv", "identify botpass");
 });
 
 bot.addListener('message', function (from, to, message) {
@@ -77,7 +76,7 @@ bot.addListener('message', function (from, to, message) {
 
 
 
-bot.addListener('error', function(message) {
+bot.addListener('error', function (message) {
     console.error('ERROR: %s: %s', message.command, message.args.join(' '));
 });
 
