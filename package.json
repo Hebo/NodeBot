@@ -1,0 +1,22 @@
+{
+    "name": "nodebot",
+    "description": "none",
+    "version": "0.0.1",
+    "author": "James Richard <james@justin.tv>",
+    "dependencies": {
+        "express": ">= 2.4.0",
+        "jade": ">= 0.11.0",
+        "irc": ">= 0.2.0",
+        "request": ">= 2.0.2",
+        "underscore": ">= 1.1.7"
+    },
+    "repository": "git://github.com/cev/nodebot",
+    "engines": {
+        "node": ">= 0.4.1 < 0.5.0"
+    },
+    "config" : { 
+        "port": 3000,
+        "env" : "dev"
+    },
+    "scripts" : { "start" : "node bot.js" }
+}
