@@ -1,27 +1,46 @@
 var irc     = require('irc'),
     http    = require('http'),
-    fs      = require('fs');
+    fs      = require('fs'),
+    express = require('express');
 
 var _ = require('underscore');
 var commands = require('./commands');
 
-var channels = ['#gaming'];
+var   channels = ['#gaming'],
+    debug_mode = false;
 
-var debug_mode = false;
 try {
     fs.lstatSync('./DEBUGMODE');
     debug_mode = true;
     console.log("Debug mode on");
     channels = ['#test'];
 } catch (e) {
-
+    // normal mode
 }
-
 
 var bot = new irc.Client('mini-irc.local', 'NodeBot', {
     debug: debug_mode,
     channels: channels,
 });
+
+// POST API for sending messages to channel
+// API: JSON -> {"type": "say", "channels": ["#gaming"], "message": "deploy complete"}
+// curl -v -H "Content-Type: application/json" -X POST -d '{"type": "say", "channels": ["#test", "#gaming"], "message": "deploy complete"}' http://localhost:4000/api
+var app = express.createServer();
+app.use(express.bodyParser());
+app.post('/api', function(req, res){
+    if (req.body['type'] == "say") {
+        _.each(req.body['channels'], function (channel) {
+            bot.say(channel, req.body['message']);
+        });
+    }
+});
+
+app.listen(4000);
+
+
+// Bot Listeners
+//================
 
 bot.addListener('registered', function() {
     // Connected to server -> nickserv identify
