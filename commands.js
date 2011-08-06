@@ -24,6 +24,10 @@ module.exports = {
                 bot.say(to, statsString);
             }
         });
-    }
+    },
+
+    ping: function (from, to, message, bot) {
+        bot.say(to, "Pong.");
+    },
 
 }

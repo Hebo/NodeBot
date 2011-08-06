@@ -6,12 +6,11 @@ var commands = require('./commands');
 
 var channels = ['#gaming'],
     debug_channels = ['#test'],
-    debug_mode = true;
+    debug_mode = false;
 
 var bot = new irc.Client('mini-irc.local', 'NodeBot', {
     debug: debug_mode,
     channels: debug_mode ? debug_channels : channels,
-    //channels: ['#test'],
 });
 
 bot.addListener('registered', function() {
@@ -30,11 +29,14 @@ bot.addListener('message', function (from, to, message) {
                 bot.say(to, c[0] + ": " + c[1]);
             });
         }
-        if ( message.match(/^!topic (\S.+)/i) ) {
+        else if ( message.match(/^!topic (\S.+)/i) ) {
             commands.topic(from, to, message, bot);
         }
-        if ( message.match(/^!stats/i) ) {
+        else if ( message.match(/^!stats/i) ) {
             commands.stats(from, to, message, bot);
+        }
+        else if ( message.match(/^!ping/i) ) {
+            commands.ping(from, to, message, bot);
         }
     }
     else {
