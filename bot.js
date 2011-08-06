@@ -5,9 +5,8 @@ var _ = require('underscore');
 var commands = require('./commands');
 
 var channels = ['#gaming'],
-    debug_channels = ['#test'];
-
-var debug_mode = true;
+    debug_channels = ['#test'],
+    debug_mode = true;
 
 var bot = new irc.Client('mini-irc.local', 'NodeBot', {
     debug: debug_mode,
